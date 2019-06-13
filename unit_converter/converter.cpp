@@ -73,11 +73,23 @@ const vector<Base_Unit>& get_base_units()
 		Base_Unit decade { "decade", "dec", 27, 10.0, 0, 0, Base_Unit::Measure::time };
 		Base_Unit century { "century", "c", 28, 10.0, 0, 0, Base_Unit::Measure::time };
 
+		// area
+		Base_Unit acre { "acre", "ac", 38, 640.0, 0, 0, Base_Unit::Measure::area };
+		Base_Unit square_mile_acre { "square mile", "sq.mi", 30, 640.0, 0, 0, Base_Unit::Measure::area };
+		Base_Unit hectare { "hectare", "ha", 31, 1/258.9988110336, 0, 0, Base_Unit::Measure::area };
+		Base_Unit square_kilometer { "square kilometer", "sq.km", 32, 100, 0, 0, Base_Unit::Measure::area };
+		Base_Unit square_meter { "square meter", "sq.m", 33, 1e-6, 0, 0, Base_Unit::Measure::area };
+		Base_Unit square_inch { "square inch", "sq.in", 34, 0.00064516, 0, 0, Base_Unit::Measure::area };
+		Base_Unit square_yard { "square yard", "sq.yd", 35, 1296.0, 0, 0, Base_Unit::Measure::area };
+		Base_Unit square_foot { "square foot", "sq.ft", 36, 1./9, 0, 0, Base_Unit::Measure::area };
+		Base_Unit square_mile { "square mile", "sq.mi", 37, 27878400.0, 0, 0, Base_Unit::Measure::area };
+
 		units = vector<Base_Unit> { 
 				foot, inch, meter_nautical_mile, nautical_mile, meter_mile, mile, yard, // length
 				pound, stone, long_ton, short_ton, ounce, pound_ounce, gram, tonne, gram_tonne, // mass
 				kelvin, celsius, fahrenheit, // temperature
-				second, minute, hour, day, week, day_week, year, month, year_month, decade, century // time
+				second, minute, hour, day, week, day_week, year, month, year_month, decade, century, // time
+				acre, square_mile_acre, hectare, square_kilometer, square_meter, square_inch, square_yard, square_foot, square_mile // area
 		};
 
 		is_initialized = true;
