@@ -12,7 +12,7 @@ class Base_Unit {
 public:
 	// measures
 	enum class Measure {
-		length, mass, time, temperature, area
+		length, mass, time, temperature, area, volume, force, energy, power, angle
 	};
 
 	// default constructor

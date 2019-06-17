@@ -14,6 +14,8 @@ using std::find;
 #include<limits>
 using std::numeric_limits;
 
+#include<cmath>
+
 // symbolic names
 constexpr char newline { '\n' };
 constexpr char unary_negative { '-' };
@@ -45,51 +47,115 @@ const vector<Base_Unit>& get_base_units()
 		Base_Unit foot { "foot", "ft", 5, 12.0, 0, 0, Base_Unit::Measure::length }; 
 
 		// mass
-		Base_Unit pound { "pound", "lb", 15, 1/453.59237, 0, 0, Base_Unit::Measure::mass };
+		Base_Unit pound { "pound", "lb", 16, 1/453.59237, 0, 0, Base_Unit::Measure::mass };
 		Base_Unit stone { "stone", "st", 7, 14, 0, 0, Base_Unit::Measure::mass };
 		Base_Unit long_ton { "long ton", "l.t", 8, 160, 0, 0, Base_Unit::Measure::mass };
 		Base_Unit short_ton { "short ton", "sh.t", 9, 1/1.12, 0, 0, Base_Unit::Measure::mass };
 		Base_Unit ounce { "ounce", "oz", 10, 1/32000.0, 0, 0, Base_Unit::Measure::mass };
 		Base_Unit pound_ounce { "pound", "lb", 11, 16, 0, 0, Base_Unit::Measure::mass };
-		Base_Unit gram { "gram", "g", 12, 1/453.59237, 0, 0, Base_Unit::Measure::mass, true };
-		Base_Unit tonne { "tonne", "t", 13, 1e6, 0, 0, Base_Unit::Measure::mass };
-		Base_Unit gram_tonne { "gram", "g", 14, 1./1e6, 0, 0, Base_Unit::Measure::mass, true };
+		Base_Unit slug { "slug", "slug", 12, 9.80665/0.3048, 0, 0, Base_Unit::Measure::mass };
+		Base_Unit gram { "gram", "g", 13, 0.3048/(9.80665*453.59237), 0, 0, Base_Unit::Measure::mass, true };
+		Base_Unit tonne { "tonne", "t", 14, 1e6, 0, 0, Base_Unit::Measure::mass };
+		Base_Unit gram_tonne { "gram", "g", 15, 1./1e6, 0, 0, Base_Unit::Measure::mass, true };
 
 		// temperature
-		Base_Unit kelvin { "Kelvin", "K", 18, 5./9, -32, 273.15, Base_Unit::Measure::temperature };
-		Base_Unit celsius { "Celsius", "°C", 16, 1, 0, 273.15, Base_Unit::Measure::temperature };
-		Base_Unit fahrenheit { "Fahrenheit", "°F", 17, 5./9, -32.0, 0, Base_Unit::Measure::temperature };
+		Base_Unit kelvin { "Kelvin", "K", 19, 5./9, -32, 273.15, Base_Unit::Measure::temperature };
+		Base_Unit celsius { "Celsius", "°C", 17, 1, 0, 273.15, Base_Unit::Measure::temperature };
+		Base_Unit fahrenheit { "Fahrenheit", "°F", 18, 5./9, -32.0, 0, Base_Unit::Measure::temperature };
 
 		// time
-		Base_Unit second { "second", "s", 29, 3153600000.0, 0, 0, Base_Unit::Measure::time, true };
-		Base_Unit minute { "minute", "min", 19, 60, 0, 0, Base_Unit::Measure::time };
-		Base_Unit hour { "hour", "h", 20, 60, 0, 0, Base_Unit::Measure::time };
-		Base_Unit day { "day", "d", 21, 24, 0, 0, Base_Unit::Measure::time };
-		Base_Unit week { "week", "wk", 22, 7, 0, 0, Base_Unit::Measure::time };
-		Base_Unit day_week { "day", "d", 23, 1./7, 0, 0, Base_Unit::Measure::time };
-		Base_Unit year { "year", "yr", 24, 365, 0, 0, Base_Unit::Measure::time };
-		Base_Unit month { "month", "mo", 25, 1./12, 0, 0, Base_Unit::Measure::time };
-		Base_Unit year_month { "year", "yr", 26, 12.0, 0, 0, Base_Unit::Measure::time };
-		Base_Unit decade { "decade", "dec", 27, 10.0, 0, 0, Base_Unit::Measure::time };
-		Base_Unit century { "century", "c", 28, 10.0, 0, 0, Base_Unit::Measure::time };
+		Base_Unit second { "second", "s", 30, 3153600000.0, 0, 0, Base_Unit::Measure::time, true };
+		Base_Unit minute { "minute", "min", 20, 60, 0, 0, Base_Unit::Measure::time };
+		Base_Unit hour { "hour", "h", 21, 60, 0, 0, Base_Unit::Measure::time };
+		Base_Unit day { "day", "d", 22, 24, 0, 0, Base_Unit::Measure::time };
+		Base_Unit week { "week", "wk", 23, 7, 0, 0, Base_Unit::Measure::time };
+		Base_Unit day_week { "day", "d", 24, 1./7, 0, 0, Base_Unit::Measure::time };
+		Base_Unit year { "year", "yr", 25, 365, 0, 0, Base_Unit::Measure::time };
+		Base_Unit month { "month", "mo", 26, 1./12, 0, 0, Base_Unit::Measure::time };
+		Base_Unit year_month { "year", "yr", 27, 12.0, 0, 0, Base_Unit::Measure::time };
+		Base_Unit decade { "decade", "dec", 28, 10.0, 0, 0, Base_Unit::Measure::time };
+		Base_Unit century { "century", "c", 29, 10.0, 0, 0, Base_Unit::Measure::time };
 
 		// area
-		Base_Unit acre { "acre", "ac", 38, 640.0, 0, 0, Base_Unit::Measure::area };
-		Base_Unit square_mile_acre { "square mile", "sq.mi", 30, 640.0, 0, 0, Base_Unit::Measure::area };
-		Base_Unit hectare { "hectare", "ha", 31, 1/258.9988110336, 0, 0, Base_Unit::Measure::area };
-		Base_Unit square_kilometer { "square kilometer", "sq.km", 32, 100, 0, 0, Base_Unit::Measure::area };
-		Base_Unit square_meter { "square meter", "sq.m", 33, 1e-6, 0, 0, Base_Unit::Measure::area };
-		Base_Unit square_inch { "square inch", "sq.in", 34, 0.00064516, 0, 0, Base_Unit::Measure::area };
-		Base_Unit square_yard { "square yard", "sq.yd", 35, 1296.0, 0, 0, Base_Unit::Measure::area };
-		Base_Unit square_foot { "square foot", "sq.ft", 36, 1./9, 0, 0, Base_Unit::Measure::area };
-		Base_Unit square_mile { "square mile", "sq.mi", 37, 27878400.0, 0, 0, Base_Unit::Measure::area };
+		Base_Unit acre { "acre", "ac", 39, 640.0, 0, 0, Base_Unit::Measure::area };
+		Base_Unit square_mile_acre { "square mile", "sq.mi", 31, 640.0, 0, 0, Base_Unit::Measure::area };
+		Base_Unit hectare { "hectare", "ha", 32, 1/258.9988110336, 0, 0, Base_Unit::Measure::area };
+		Base_Unit square_kilometer { "square kilometer", "sq.km", 33, 100, 0, 0, Base_Unit::Measure::area };
+		Base_Unit square_meter { "square meter", "sq.m", 34, 1e-6, 0, 0, Base_Unit::Measure::area };
+		Base_Unit square_inch { "square inch", "sq.in", 35, 0.00064516, 0, 0, Base_Unit::Measure::area };
+		Base_Unit square_yard { "square yard", "sq.yd", 36, 1296.0, 0, 0, Base_Unit::Measure::area };
+		Base_Unit square_foot { "square foot", "sq.ft", 37, 1./9, 0, 0, Base_Unit::Measure::area };
+		Base_Unit square_mile { "square mile", "sq.mi", 38, 27878400.0, 0, 0, Base_Unit::Measure::area };
+
+		// volume
+		Base_Unit us_teaspoon { "US teaspoon", "us.tsp", 64, 768, 0, 0, Base_Unit::Measure::volume };
+		Base_Unit us_tablespoon { "US tablespoon", "us.tbsp", 40, 3, 0, 0, Base_Unit::Measure::volume };
+		Base_Unit us_fluid_ounce { "US fluid ounce", "us.fl.oz", 41, 2, 0, 0, Base_Unit::Measure::volume };
+		Base_Unit us_cup { "US cup", "us.cup", 42, 8, 0, 0, Base_Unit::Measure::volume };
+		Base_Unit us_pint { "US pint", "us.pt", 43, 2, 0, 0, Base_Unit::Measure::volume };
+		Base_Unit us_quart { "US quart", "us.qt", 44, 2, 0, 0, Base_Unit::Measure::volume };
+		Base_Unit us_gallon { "US gallon", "us.gal", 45, 4, 0, 0, Base_Unit::Measure::volume };
+		Base_Unit cubic_inch { "cubic inch", "cu.in", 46, 1./231, 0, 0, Base_Unit::Measure::volume };
+		Base_Unit cubic_yard { "cubic yard", "cu.yd", 47, 46656.0, 0, 0, Base_Unit::Measure::volume };
+		Base_Unit cubic_foot { "cubic foot", "cu.ft", 48, 1./27, 0, 0, Base_Unit::Measure::volume };
+		Base_Unit cubic_meter { "cubic meter", "cu.m", 49, 1./pow(0.3048,3), 0, 0, Base_Unit::Measure::volume };
+		Base_Unit cubic_centimeter { "cubic centimeter", "cu.cm", 50, 1e-6, 0, 0, Base_Unit::Measure::volume };
+		Base_Unit liter { "liter", "l", 51, 1000, 0, 0, Base_Unit::Measure::volume, true };
+		Base_Unit legal_cup { "legal cup", "l.cup", 52, 0.24, 0, 0, Base_Unit::Measure::volume };
+		Base_Unit liter_legal_cup { "liter", "l", 53, 1/0.24, 0, 0, Base_Unit::Measure::volume };
+		Base_Unit imperial_gallon { "imperial gallon", "gal", 54, 4.54609, 0, 0, Base_Unit::Measure::volume };
+		Base_Unit imperial_quart { "imperial quart", "qt", 55, 1./4, 0, 0, Base_Unit::Measure::volume };
+		Base_Unit imperial_pint { "imperial pint", "pt", 56, 1./2, 0, 0, Base_Unit::Measure::volume };
+		Base_Unit imperial_cup { "imperial cup", "cup", 57, 1./2, 0, 0, Base_Unit::Measure::volume };
+		Base_Unit imperial_fluid_ounce { "imperial fluid ounce", "fl.oz", 58, 1./10., 0, 0, Base_Unit::Measure::volume };
+		Base_Unit imperial_tablespoon { "imperial tablespoon", "tbsp", 59, 1/1.6, 0, 0, Base_Unit::Measure::volume };
+		Base_Unit imperial_teaspoon { "imperial teaspoon", "tsp", 60, 1/3.0, 0, 0, Base_Unit::Measure::volume };
+		Base_Unit imperial_gallon_imperial_teaspoon { "imperial quart", "qt", 61, 768., 0, 0, Base_Unit::Measure::volume };
+		Base_Unit liter_imperial_gallon { "liter", "l", 62, 1/4.54609, 0, 0, Base_Unit::Measure::volume };
+		Base_Unit us_gallon_liter { "US gallon", "us.gal", 63, 3.785411784, 0, 0, Base_Unit::Measure::volume };
+
+		// force
+		Base_Unit dyne { "dyne", "dyn", 67, 0.45359237*9.80665*1e5, 0, 0, Base_Unit::Measure::force };
+		Base_Unit newton { "newton", "N", 65, 1e5, 0, 0, Base_Unit::Measure::force };
+		Base_Unit pound_force { "pound-force", "lbf", 66, 0.45359237*9.80665, 0, 0, Base_Unit::Measure::force };
+
+		// energy
+		Base_Unit british_thermal_unit { "british thermal unit", "Btu", 76, (9*1.3558179483314004)/9489.1523804, 0, 0, Base_Unit::Measure::energy };
+		Base_Unit erg { "erg", "erg", 68, 9/(1e7*9489.1523804), 0, 0, Base_Unit::Measure::energy };
+		Base_Unit joule { "joule", "J", 69, 1e7, 0, 0, Base_Unit::Measure::energy, true };
+		Base_Unit calorie { "calorie", "cal", 70, 4.184, 0, 0, Base_Unit::Measure::energy, true };
+		Base_Unit watt_hour { "watt hour", "Wh", 71, 3600/4.184, 0, 0, Base_Unit::Measure::energy, true };
+		Base_Unit electronvolt { "electronvolt", "eV", 72, 1.602176634e-19/3600, 0, 0, Base_Unit::Measure::energy, true };
+		Base_Unit british_thermal_unit_it { "british thermal unit", "IT.Btu", 73, 1055.05585262/1.602176634e-19, 0, 0, Base_Unit::Measure::energy };
+		Base_Unit us_therm { "us therm", "us.thm", 74, 105480400/1055.05585262, 0, 0, Base_Unit::Measure::energy };
+		Base_Unit foot_pound { "foot pound", "ft.lb", 75, 1.3558179483314004/105480400, 0, 0, Base_Unit::Measure::energy };
+
+		// power
+		Base_Unit calories_per_second { "calories per second", "cal/s", 80, 745.69987158227022/4.1868, 0, 0, Base_Unit::Measure::power }; // approximation
+		Base_Unit btu_per_hour { "btu per hour", "Btu/h", 77, 1/(4.1868*3.412141633), 0, 0, Base_Unit::Measure::power }; // approximation
+		Base_Unit watt { "watt", "W", 78, 3.412141633, 0, 0, Base_Unit::Measure::power, true };
+		Base_Unit horsepower { "mechanical horsepower", "hp", 79, 745.69987158227022, 0, 0, Base_Unit::Measure::power };
+
+		// angle
+		Base_Unit gradian { "gradian", "grad", 85, 10./9, 0, 0, Base_Unit::Measure::angle };
+		Base_Unit radian { "radian", "rad", 81, 200./acos(-1), 0, 0, Base_Unit::Measure::angle, true };
+		Base_Unit arcsecond { "arcsecond", "arcsec", 82, acos(-1)/648000.0, 0, 0, Base_Unit::Measure::angle };
+		Base_Unit arcminute { "arcminute", "arcmin", 83, 60., 0, 0, Base_Unit::Measure::angle };
+		Base_Unit degree { "degree", "deg", 84, 60., 0, 0, Base_Unit::Measure::angle };
 
 		units = vector<Base_Unit> { 
 				foot, inch, meter_nautical_mile, nautical_mile, meter_mile, mile, yard, // length
-				pound, stone, long_ton, short_ton, ounce, pound_ounce, gram, tonne, gram_tonne, // mass
+				pound, stone, long_ton, short_ton, ounce, pound_ounce, slug, gram, tonne, gram_tonne, // mass
 				kelvin, celsius, fahrenheit, // temperature
 				second, minute, hour, day, week, day_week, year, month, year_month, decade, century, // time
-				acre, square_mile_acre, hectare, square_kilometer, square_meter, square_inch, square_yard, square_foot, square_mile // area
+				acre, square_mile_acre, hectare, square_kilometer, square_meter, square_inch, square_yard, square_foot, square_mile, // area
+				us_teaspoon, us_tablespoon, us_fluid_ounce, us_cup, us_pint, us_quart, us_gallon, cubic_inch, cubic_yard, cubic_foot, cubic_meter, 
+				cubic_centimeter, liter, legal_cup, liter_legal_cup, imperial_gallon, imperial_quart, imperial_pint, imperial_cup, imperial_fluid_ounce, imperial_tablespoon,
+				imperial_teaspoon, imperial_gallon_imperial_teaspoon, liter_imperial_gallon, us_gallon_liter, // volume
+				dyne, newton, pound_force, // force
+				british_thermal_unit, erg, joule, calorie, watt_hour, electronvolt, british_thermal_unit_it, us_therm, foot_pound, // energy
+				calories_per_second, btu_per_hour, watt, horsepower, // power
+				gradian, radian, arcsecond, arcminute, degree // angle
 		};
 
 		is_initialized = true;
